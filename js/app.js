@@ -51,6 +51,31 @@ function requestResources() {
         list.appendChild(listItem);
       }
     }
+    //If a starship is requested, display the following information: - Name, in an <h2> tag - Manufacturer, in an <p> tag - Starship Class, in an <p> tag - a list of all Film names that this starship appeared in <li> tags wrapped in <ul>
+    if (resourceType.value === "starships") {
+      let name = document.createElement("h2");
+      name.innerHTML = returnedObject.name;
+      contentContainer.appendChild(name);
+      let manufacturer = document.createElement("p");
+      manufacturer.innerHTML = returnedObject.manufacturer;
+      contentContainer.appendChild(manufacturer);
+      let starshipClass = document.createElement("p");
+      starshipClass.innerHTML = returnedObject.starship_class;
+      contentContainer.appendChild(starshipClass);
+      let list = document.createElement("ul");
+      contentContainer.appendChild(list);
+      for (i = 0; i < returnedObject.films.length; i++) {
+        let listItem = document.createElement("li");
+        let filmRequest = new XMLHttpRequest();
+        filmRequest.addEventListener("load", function() {
+          filmObject = JSON.parse(this.responseText);
+          listItem.innerHTML = filmObject.title;
+        });
+        filmRequest.open("GET", returnedObject.films[i]);
+        filmRequest.send();
+        list.appendChild(listItem);
+      }
+    }
   });
   request.open(
     "GET",
