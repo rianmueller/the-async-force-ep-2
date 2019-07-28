@@ -10,7 +10,17 @@ function requestResources() {
         "/"
     );
     console.log(returnedObject);
-    if (resourceType.value === "people") {
+    if (returnedObject.detail === "Not found") {
+      let name = document.createElement("p");
+      name.style.backgroundColor = "pink";
+      name.innerHTML =
+        "Error: Fetching resource: https://swapi.co/api/" +
+        resourceType.value +
+        "/" +
+        resourceId.value +
+        "/ NOT FOUND";
+      contentContainer.appendChild(name);
+    } else if (resourceType.value === "people") {
       let name = document.createElement("h2");
       name.innerHTML = returnedObject.name;
       contentContainer.appendChild(name);
@@ -26,8 +36,7 @@ function requestResources() {
       speciesRequest.open("GET", returnedObject.species);
       speciesRequest.send();
       contentContainer.appendChild(species);
-    }
-    if (resourceType.value === "planets") {
+    } else if (resourceType.value === "planets") {
       let name = document.createElement("h2");
       name.innerHTML = returnedObject.name;
       contentContainer.appendChild(name);
@@ -50,9 +59,7 @@ function requestResources() {
         filmRequest.send();
         list.appendChild(listItem);
       }
-    }
-    //If a starship is requested, display the following information: - Name, in an <h2> tag - Manufacturer, in an <p> tag - Starship Class, in an <p> tag - a list of all Film names that this starship appeared in <li> tags wrapped in <ul>
-    if (resourceType.value === "starships") {
+    } else if (resourceType.value === "starships") {
       let name = document.createElement("h2");
       name.innerHTML = returnedObject.name;
       contentContainer.appendChild(name);
